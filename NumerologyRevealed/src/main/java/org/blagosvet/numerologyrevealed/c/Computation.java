@@ -15,8 +15,8 @@ import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 
 public class Computation {
+    
     //// Alphabet
-
     private Alphabet alphabet = null;
     private HashMap<Character, Integer> characterMap = null;
     private HashMap<Character, Integer> vowelMap = null;
@@ -115,7 +115,7 @@ public class Computation {
      * @param checknum is number to check
      *
      * Class level variables: pTypeLastNameSum
-     * @return boolean, true if checknumber was found
+     * @return boolean, true if checksum was found
      */
     private boolean selection(ArrayList<Integer> src, ArrayList<Integer> ind, int position, ArrayList<Integer> forepart, int checknum) {
         boolean ret = false;
