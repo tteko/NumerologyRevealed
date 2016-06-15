@@ -34,7 +34,7 @@ public class MainTest {
     //John Lucas Peterson
     // 22-dec-1972
     // JLPETERSON
-
+    // Оксана Александровна Юлиенко
     @Test
     public void Person() {
         Person p = new Person("John", "Lucas", "Peterson", "JLPETERSON", 1972, 12, 22);

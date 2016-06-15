@@ -13,41 +13,34 @@ import org.apache.commons.lang3.StringUtils;
 import org.blagosvet.numerologyrevealed.m.Person;
 
 public class ToDo {
-    
+
     public ToDo() {
         String message
                 = "\n======= To Do =======\n"
                 + "\n"
                 + "26-MAY-2016 Alphabet.java: check Bulgarian & Spanish maps";
         System.out.println(message);
-        Person person = new Person("Святослав", "Дмитриевич", "Безгодов", "Безгоодооов", 2010, 2, 15);
+        Person person = new Person("Святослав", "Дмитриевич", "Безгодов", "АЕБезгоодооовоо", 2010, 2, 15);
+        //Person person = new Person("Оксана", "Александровна", "Юлиенко", "ОЮлиенко", 1969, 2, 23);
+        //Юлиенко [0, 3, 0, 0, 5, 2, 0] Index: [1, 4, 5]
+
         String name = person.getSignature();
-        ArrayList<Integer> pTypeName = new ArrayList<>();
+
         //ArrayList<Integer> pTypeName = new ArrayList<>();
         //[2, 0, 8, 7, 0, 4, 0, 4]
-        int allnums[] = {2, 0, 8, 7, 0, 0, 4, 0, 0, 0, 4};
+        /*
+        Заменить все 0+ сначала на пробелы
+        Заменить все хвостовые 0+ на пробелы
+        Заменить все остальные 0+ на + посередине
+         */
+        int allnums[] = {0, 0, 2, 0, 8, 7, 0, 0, 4, 0, 0, 0, 4, 0, 0};
         StringBuilder sb = new StringBuilder();
-        
+
         for (int d : allnums) {
-            pTypeName.add(d);
             sb.append(d);
         }
-        System.out.println(sb);
-        //==
-        Pattern pattern = Pattern.compile("0+");
-        Matcher matcher = pattern.matcher(sb.toString());
-        String[] ar = pattern.split(sb.toString());
-        for (String s : ar) {
-            System.out.print(s);
-            String found;
-            if(matcher.find()){
-                found = matcher.group();
-                int s_length = found.length();
-                System.out.print(StringUtils.center("+", s_length));
-            }
-        }
-        System.out.println();
-        
+        System.out.println("sb: " + sb);
+
         /*while (matcher.find()) {
 
             //System.out.println();
@@ -68,20 +61,52 @@ public class ToDo {
         //String format = "|%1$-10s|%2$-10s|%3$-20s|\n";
         //System.out.format(format, "FirstName", "Init.", "LastName");
         //System.out.format(format,StringUtils.center("Real",10),StringUtils.center("",10),StringUtils.center("Gagnon",20));
-        //==
+//============================
+        // 1. Print the name
         for (char c : name.toCharArray()) {
-            System.out.print(" " + c);
+            System.out.print(c + " ");
         }
         System.out.println();
-        
-        System.out.print(" ");
-        for (int i = 0; i < (pTypeName.size() - 1); i++) {
-            int d = pTypeName.get(i);
-            System.out.print(d + "+");
+
+        // 2.Print the digits
+        int sb_size = sb.length();
+        for (int i = 0; i < sb_size; i++) {
+            System.out.print(sb.charAt(i));
+            if (i < (sb_size - 1)) {
+                System.out.print("+");
+            }
         }
-        System.out.println(pTypeName.get(pTypeName.size() - 1));
-        
-        int[] n = {11, 2, 8, 4};
-        
+        System.out.println();
+
+        // 3. Print the digits except zero(-es)
+        Pattern pattern = Pattern.compile("0+");
+        Matcher matcher = pattern.matcher(sb.toString());
+
+        String[] ar = pattern.split(sb.toString());
+        for (int i = 0; i < ar.length; i++) {
+            if (ar[i].length() > 1) {
+                int ar_size = ar[i].length();
+                for (int j = 0; j < ar_size; j++) {
+                    System.out.print(ar[i].charAt(j));
+                    if (j < (ar_size - 1)) {
+                        System.out.print("+");
+                    }
+                }
+            } else {
+                System.out.print(ar[i]);
+            }
+            String found;
+            if (matcher.find()) {
+                found = matcher.group();
+                int s_length = found.length();
+                if (i > 0 && i < (ar.length - 1)) {
+                    System.out.print(StringUtils.center("+", 1 + (s_length * 2)));
+                } else {
+                    System.out.print(StringUtils.center(" ", s_length * 2));
+                }
+            }
+        }
+        System.out.println();
+
     }
 }

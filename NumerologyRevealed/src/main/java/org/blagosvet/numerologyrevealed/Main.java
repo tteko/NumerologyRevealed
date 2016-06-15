@@ -16,6 +16,7 @@ public class Main {
         //Person person = new Person("John", "Lucas", "Peterson", "JLPETERSON", 1972, 12, 22);
         //Person person = new Person("John", "Lucas", "Peterhsonfgennadiich", "JLPETERSON", 1972, 12, 22);
         //Person person = new Person("Святослав", "Дмитриевич", "Безгодов", "Безгодов", 2010, 2, 15);
+        //Person person = new Person("Оксана", "Александровна", "Юлиенко", "ОЮлиенко", 1969, 2, 23);
         //Computation computation = new Computation(person);
         ToDo toDo = new ToDo();
     }
