@@ -6,10 +6,19 @@ package org.blagosvet.numerologyrevealed.m;
  */
 public class SpecialNumbers {
 
-    private final static int[] POWER_NUMBERS = {33, 22, 11};
+    private final static int TRINITY_NUMBER = 33;
+    private final static int[] POWER_NUMBERS = {22, 11};
     private final static int[] KARMIC_NUMBERS = {13, 15, 16, 19};
 
     public SpecialNumbers() {
+    }
+    /**
+     * Get Trinity Power number
+     *
+     * @return Trinity number
+     */
+    public static int getTrinityNumber() {
+        return TRINITY_NUMBER;
     }
 
     /**
@@ -17,7 +26,7 @@ public class SpecialNumbers {
      *
      * @return int[] of special numbers
      */
-    public int[] getPowerNumbers() {
+    public static int[] getPowerNumbers() {
         return POWER_NUMBERS;
     }
 
@@ -26,11 +35,18 @@ public class SpecialNumbers {
      *
      * @return int[] of special numbers
      */
-    public int[] getKarmicNumbers() {
+    public static int[] getKarmicNumbers() {
         return KARMIC_NUMBERS;
     }
-
-    public boolean containsAPowerNumber(int number) {
+    
+    /**
+     * is number contain a power number
+     * 
+     * @param number to check for
+     * 
+     * @return int[] of special numbers
+     */
+    public static boolean containsAPowerNumber(int number) {
         for (int d : POWER_NUMBERS) {
             if (number == d) {
                 return true;
@@ -39,7 +55,7 @@ public class SpecialNumbers {
         return false;
     }
 
-    public boolean containsAKarmicNumber(int number) {
+    public static boolean containsAKarmicNumber(int number) {
         for (int d : KARMIC_NUMBERS) {
             if (number == d) {
                 return true;
@@ -54,7 +70,7 @@ public class SpecialNumbers {
      * @param number to test
      * @return true if number is a Power Number, else return false
      */
-    public boolean isPowerNumber(int number) {
+    public static boolean isPowerNumber(int number) {
         for (int n : POWER_NUMBERS) {
             if (n == number) {
                 return true;
@@ -69,7 +85,7 @@ public class SpecialNumbers {
      * @param number to test
      * @return true if number is a Karmic Number, else return false
      */
-    public boolean isKarmicNumber(int number) {
+    public static boolean isKarmicNumber(int number) {
         for (int n : KARMIC_NUMBERS) {
             if (n == number) {
                 return true;

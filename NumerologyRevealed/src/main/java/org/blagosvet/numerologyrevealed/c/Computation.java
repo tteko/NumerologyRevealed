@@ -15,7 +15,7 @@ import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 
 public class Computation {
-    
+
     //// Alphabet
     private Alphabet alphabet = null;
     private HashMap<Character, Integer> characterMap = null;
@@ -23,8 +23,7 @@ public class Computation {
     private HashMap<Character, Integer> consonantMap = null;
 
     //// SpecialNumbers
-    private SpecialNumbers specialNumbers = null;
-
+    //private SpecialNumbers specialNumbers = null;
     //// Personality Type (Consonants)
     //private ArrayList<Integer> pTypeFirstNameDigits;
     //private ArrayList<Integer> pTypeMiddleNameDigits;
@@ -46,8 +45,7 @@ public class Computation {
         consonantMap = alphabet.getConsonantMap();
 
         //// SpecialNumbers
-        specialNumbers = new SpecialNumbers();
-
+        //specialNumbers = new SpecialNumbers();
         //// Personality Type (Consonants)
         // personal type last name digits
         pTypeLastNameDigits = alphabet.getConsonantDigits(person.getLastName());
@@ -61,36 +59,70 @@ public class Computation {
         //// Person
         //+System.out.println(person);
         //// Selection
-        System.out.println(person.getLastName() + " " + pTypeLastNameDigits
-                + " Index: " + pTypeLastNameIndex);
-        for (int n : specialNumbers.getPowerNumbers()) {
-            System.out.print("\nSearch for " + n + ":");
+        System.out.println(person.getLastName() + "\nDigits:" + pTypeLastNameDigits
+                + "\nIndex :" + pTypeLastNameIndex);
+        System.out.println("==== Search for TRINITY_NUMBER (" + ")");
+        int trinityNumber = SpecialNumbers.getTrinityNumber();
+        boolean found33 = false;
+        int i33 = 0;
+        while (i33 < pTypeLastNameIndex.size()) {
+            //System.out.println("for i="+i);
+            ArrayList<Integer> fprt33 = new ArrayList<>();
+            fprt33.add(pTypeLastNameIndex.get(i33));
+            found33 = selection(pTypeLastNameDigits, pTypeLastNameIndex, i33, fprt33, trinityNumber);
+
+            if (found33) {
+                //System.out.print(" Found!");
+                System.out.println(" In Reminder:\n  Digits are " + getDigitsFromIndex(pTypeLastNameDigits, pTypeLastNameIndex) + "\n  Index is " + pTypeLastNameIndex);
+                int currsum = summarize(pTypeLastNameDigits, pTypeLastNameIndex);
+                System.out.println(" Currsumm=" + currsum + "; trinityNumber=" + trinityNumber + " if(" + currsum + " < " + trinityNumber + ")break;");
+                System.out.println(" i=" + i33 + "; pTypeLastNameIndex.size()=" + pTypeLastNameIndex.size());
+                if (currsum < trinityNumber) {
+                    break;
+                }
+            } else {
+                i33++;
+            }
+        }
+        System.out.print("\nRESULT: ");
+        if (found33) {
+            System.out.println("Found " + trinityNumber + ":");
+            System.out.println("Reminder:\n Digits are " + getDigitsFromIndex(pTypeLastNameDigits, pTypeLastNameIndex) + "\n Index is " + pTypeLastNameIndex);
+        } else {
+            System.out.println(trinityNumber + " was not found!");
+        }
+
+        //==== Search for " + powerNumber + " ===="
+        for (int powerNumber : SpecialNumbers.getPowerNumbers()) {
+            //for (int powerNumber : specialNumbers.getPowerNumbers()) {
+            System.out.println("\n==== Search for " + powerNumber + " ====");
             boolean found = false;
             int i = 0;
             while (i < pTypeLastNameIndex.size()) {
                 //System.out.println("for i="+i);
                 ArrayList<Integer> fprt = new ArrayList<>();
                 fprt.add(pTypeLastNameIndex.get(i));
-                found = selection(pTypeLastNameDigits, pTypeLastNameIndex, i, fprt, n);
+                found = selection(pTypeLastNameDigits, pTypeLastNameIndex, i, fprt, powerNumber);
 
                 if (found) {
                     //System.out.print(" Found!");
-                    System.out.println("in Reminder is " + pTypeLastNameIndex + "; " + getDigitsFromIndex(pTypeLastNameDigits, pTypeLastNameIndex));
+                    System.out.println(" In Reminder:\n  Digits are " + getDigitsFromIndex(pTypeLastNameDigits, pTypeLastNameIndex) + "\n  Index is " + pTypeLastNameIndex);
                     int currsum = summarize(pTypeLastNameDigits, pTypeLastNameIndex);
-                    System.out.println("Currsumm=" + currsum + "; n=" + n + " if(" + currsum + " < " + n + ")break;");
-                    System.out.println("i=" + i + "; pTypeLastNameIndex.size()=" + pTypeLastNameIndex.size());
-                    if (currsum < n) {
+                    System.out.println(" Currsumm=" + currsum + "; powerNumber=" + powerNumber + " if(" + currsum + " < " + powerNumber + ")break;");
+                    System.out.println(" i=" + i + "; pTypeLastNameIndex.size()=" + pTypeLastNameIndex.size());
+                    if (currsum < powerNumber) {
                         break;
                     }
                 } else {
                     i++;
                 }
             }
+            System.out.print("\nRESULT: ");
             if (found) {
-                System.out.print(" Found!");
-                System.out.println(" Reminder is " + pTypeLastNameIndex + "; " + getDigitsFromIndex(pTypeLastNameDigits, pTypeLastNameIndex));
+                System.out.println("Found " + powerNumber + ":");
+                System.out.println("Reminder:\n Digits are " + getDigitsFromIndex(pTypeLastNameDigits, pTypeLastNameIndex) + "\n Index is " + pTypeLastNameIndex);
             } else {
-                System.out.println(" Not found!");
+                System.out.println(powerNumber + " was not found!");
             }
         }
         ////
@@ -115,6 +147,7 @@ public class Computation {
      * @param checknum is number to check
      *
      * Class level variables: pTypeLastNameSum
+     * 
      * @return boolean, true if checksum was found
      */
     private boolean selection(ArrayList<Integer> src, ArrayList<Integer> ind, int position, ArrayList<Integer> forepart, int checknum) {
@@ -124,13 +157,13 @@ public class Computation {
             ArrayList<Integer> part = new ArrayList<>(forepart);
             part.add(ind.get(j));
             //System.out.println(part);
-            int s = summarize(src, part);
+            int summ = summarize(src, part);
 
-            if (s == checknum) {
-                System.out.print(" Checknum!: " + checknum + ": " + getDigitsFromIndex(src, part) + "; " + part);
-                pTypeLastNameSum.put(s, part);
+            if (summ == checknum) {
+                System.out.println(" selection(): " + checknum + " is found:\n\tDigits are " + getDigitsFromIndex(src, part) + "\n\tIndex is " + part);
+                pTypeLastNameSum.put(summ, part);
                 ind.removeAll(part);
-                System.out.println(" Reminder: " + getDigitsFromIndex(src, ind) + "; " + ind);
+                System.out.println(" selection(): Reminder:\n\tDigits are " + getDigitsFromIndex(src, ind) + "\n\tIndex is " + ind);
                 ret = true;
                 break;
             } else {
@@ -146,7 +179,6 @@ public class Computation {
         }
         return ret;
     }
-
     /**
      * Get index of actual digits, 0 will be passed
      *
@@ -169,7 +201,8 @@ public class Computation {
     /**
      * Get index of actual digits, 0 will be passed
      *
-     * @param ArrayList of digits
+     * @param digits is ArrayList of digits
+     * @param index is ArrayList of index
      *
      * @return ArrayList of index
      */
@@ -187,8 +220,8 @@ public class Computation {
     /**
      * Delete digits according to index
      *
-     * @param ArrayList of digits
-     * @param ArrayList of index
+     * @param digits is ArrayList of digits
+     * @param index is ArrayList of index
      */
     private void deleteDigits(ArrayList<Integer> digits, ArrayList<Integer> index) {
 
@@ -203,7 +236,8 @@ public class Computation {
     /**
      * Calculate sum of digits
      *
-     * @param ArrayList of digits
+     * @param digits is ArrayList of digits
+     * @param index is ArrayList of index
      *
      * @return Sum of digits
      */

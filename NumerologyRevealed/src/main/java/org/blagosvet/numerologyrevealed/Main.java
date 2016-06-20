@@ -1,9 +1,7 @@
 package org.blagosvet.numerologyrevealed;
 
-/**
- *
- * @author dmitri
- */
+//import org.blagosvet.numerologyrevealed.ToDo;
+
 import org.blagosvet.numerologyrevealed.m.Person;
 import org.blagosvet.numerologyrevealed.c.Computation;
 
@@ -14,10 +12,9 @@ public class Main {
         //hm.put('A',1);
 
         //Person person = new Person("John", "Lucas", "Peterson", "JLPETERSON", 1972, 12, 22);
-        //Person person = new Person("John", "Lucas", "Peterhsonfgennadiich", "JLPETERSON", 1972, 12, 22);
-        //Person person = new Person("Святослав", "Дмитриевич", "Безгодов", "Безгодов", 2010, 2, 15);
-        //Person person = new Person("Оксана", "Александровна", "Юлиенко", "ОЮлиенко", 1969, 2, 23);
-        //Computation computation = new Computation(person);
+        Person person = new Person("John", "Lucas", "Peterhsonfgennadiich", "JLPETERSON", 1972, 12, 22);
+        //Person person = new Person("Дмитрий", "Геннадьевич", "Безгодов", "Безгодов", 1967, 3, 27);
+        Computation computation = new Computation(person);
         ToDo toDo = new ToDo();
     }
 }
