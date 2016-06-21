@@ -107,6 +107,21 @@ public class ToDo {
             }
         }
         System.out.println();
-
+        /*//ArrayList<String> als = new ArrayList<>();
+        //als.add("First line");
+        //als.add("Second line");
+        //als.add("Third line");
+        ArrayDeque<String> aq = new ArrayDeque<>();
+        aq.offerFirst("First line");
+        aq.offerFirst("Second line");
+        aq.offerFirst("Third line");
+        
+        //for(String line: als){
+        //    System.out.println(line);
+        //}//
+        //for(String line: aq){
+        //    System.out.println(line);
+        //}
+        Booklet booklet = new Booklet(aq);*/
     }
 }

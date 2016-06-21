@@ -1,4 +1,4 @@
-package org.blagosvet.numerologyrevealed.v;
+package org.blagosvet.numerologyrevealed.v.console;
 
 /**
  *
@@ -10,9 +10,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class Console {
+public class Input {
 
-    public Console(Person person) {
+    public Input(Person person) {
 
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

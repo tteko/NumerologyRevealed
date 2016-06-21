@@ -1,25 +1,24 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package org.blagosvet.numerologyrevealed.c;
 
 /**
  *
  * @author dmitri
- */
-import org.blagosvet.numerologyrevealed.m.Alphabet;
+ */import org.blagosvet.numerologyrevealed.m.Alphabet;
 import org.blagosvet.numerologyrevealed.m.SpecialNumbers;
 import org.blagosvet.numerologyrevealed.m.Person;
 
 import java.util.HashMap;
 import java.util.ArrayList;
-import java.util.ArrayDeque;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
-import org.apache.commons.lang3.StringUtils;
 
-public class Computation {
+public class Computation2 {
 
     //// Alphabet
     private Alphabet alphabet = null;
@@ -41,27 +40,22 @@ public class Computation {
     //private ArrayList<Integer> sUrgeMiddleNameDigits;
     //private ArrayList<Integer> sUrgeLastNameDigits;
 
-    // ===== Result of calculation contains in ArrayDeque
-    private ArrayDeque<String> result;
+    public Computation2(Person person) {
 
-    public Computation(Person person) {
-
-        ////=== Result of computation
-        result = new ArrayDeque<>();
-
-        ////=== Alphabet
+        //// Alphabet
         alphabet = new Alphabet();
         characterMap = alphabet.getCharacterMap();
         vowelMap = alphabet.getVowelMap();
         consonantMap = alphabet.getConsonantMap();
 
-        ////==  Personality Type (Consonants)
-        ///// Last name
-        //////  digits
+        //// SpecialNumbers
+        //specialNumbers = new SpecialNumbers();
+        //// Personality Type (Consonants)
+        // personal type last name digits
         pTypeLastNameDigits = alphabet.getConsonantDigits(person.getLastName());
-        //////  sum
+        // personal type last name sum
         pTypeLastNameSum = new ArrayListValuedHashMap<>();
-        //////  index
+        // personal type last name index
         ArrayList<Integer> pTypeLastNameIndex = getIndex(pTypeLastNameDigits);
         // Peterson, digits: [7, 0, 2, 0, 9, 1, 0, 5] Index: [0, 2, 4, 5, 7]
 
@@ -71,22 +65,6 @@ public class Computation {
         //// Selection
         System.out.println(person.getLastName() + "\nDigits:" + pTypeLastNameDigits
                 + "\nIndex :" + pTypeLastNameIndex);
-        //==>
-
-        result.add(insertCharacter(person.getLastName(), ' '));
-        //result.add(person.getLastName().chars().mapToObj(c -> (char) c).collect(Collectors.joining("+")));
-        //result.add(person.getLastName().toCharArray().stream().map(Object::toString)
-        //        .collect(Collectors.joining("+")));
-        // that below works
-        result.add(pTypeLastNameDigits.stream().map(Object::toString)
-                .collect(Collectors.joining("+")));
-        
-        String lastNameDigits = pTypeLastNameDigits
-                .stream()
-                .map(Object::toString)
-                .collect(Collectors.joining(""));
-        //System.out.println("lastNameDigits="+lastNameDigits);
-        result.add(zeroPlus(lastNameDigits));
         System.out.println("==== Search for TRINITY_NUMBER (" + ")");
         int trinityNumber = SpecialNumbers.getTrinityNumber();
         boolean found33 = false;
@@ -117,15 +95,9 @@ public class Computation {
         } else {
             System.out.println(trinityNumber + " was not found!");
         }
-        System.out.println("\nResult of selection:");
-        for (int i : pTypeLastNameSum.keySet()) {
-            System.out.println("Key=" + i + "; Index=" + pTypeLastNameSum.get(i));
-            //+ "; " + getDigitsFromIndex(pTypeLastNameDigits, pTypeLastNameSum.get(i)));
-        }
-        System.out.println(" Reminder is " + pTypeLastNameIndex + "; " + getDigitsFromIndex(pTypeLastNameDigits, pTypeLastNameIndex));
 
         //==== Search for 22 and 11 ===="
-        /*     for (int powerNumber : SpecialNumbers.getPowerNumbers()) {
+        /*for (int powerNumber : SpecialNumbers.getPowerNumbers()) {
             //for (int powerNumber : specialNumbers.getPowerNumbers()) {
             System.out.println("\n==== Search for " + powerNumber + " ====");
             boolean found = false;
@@ -156,17 +128,18 @@ public class Computation {
             } else {
                 System.out.println(powerNumber + " was not found!");
             }
-        }
+        } */
         ////
-        
+        System.out.println("\nResult of selection:");
+        for (int i : pTypeLastNameSum.keySet()) {
+            System.out.println("Key=" + i + "; Index=" + pTypeLastNameSum.get(i));
+            //+ "; " + getDigitsFromIndex(pTypeLastNameDigits, pTypeLastNameSum.get(i)));
+        }
+        System.out.println(" Reminder is " + pTypeLastNameIndex + "; " + getDigitsFromIndex(pTypeLastNameDigits, pTypeLastNameIndex));
         //for (Map.Entry entry : pTypeLastNameSum.entrySet()) {
         //    System.out.println(entry.getKey() + ": " + entry.getValue() + "; " + getDigitsFromIndex(pTypeLastNameDigits, (ArrayList)entry.getValue()));
         //}
         //System.out.println("Reminder is " + pTypeLastNameIndex + "; " + getDigitsFromIndex(pTypeLastNameDigits, pTypeLastNameIndex));
-         */
-        for (String s : result) {
-            System.out.println(s);
-        }
     } //Constructor
 
     /**
@@ -178,14 +151,14 @@ public class Computation {
      * @param checknum is number to check
      *
      * Class level variables: pTypeLastNameSum
-     *
+     * 
      * @return boolean, true if checksum was found
      */
     private boolean selection(
-            ArrayList<Integer> src,
-            ArrayList<Integer> ind,
-            int position,
-            ArrayList<Integer> forepart,
+            ArrayList<Integer> src, 
+            ArrayList<Integer> ind, 
+            int position, 
+            ArrayList<Integer> forepart, 
             int checknum) {
         boolean ret = false;
         //System.out.println("\nselection(" + src + "," + ind + "," + position + "," + forepart + "," + checknum + ");");
@@ -215,7 +188,6 @@ public class Computation {
         }
         return ret;
     }
-
     /**
      * Get index of actual digits, 0 will be passed
      *
@@ -285,77 +257,5 @@ public class Computation {
         }
         return sum;
     }
-
-    /**
-     * Result of computation
-     *
-     * @return result of computation
-     */
-    public ArrayDeque<String> getResult() {
-        return result;
-    }
-
-    /**
-     * Insert a character between characters of given string
-     *
-     * @param line is String to tranform
-     * @param addon is character to insert between
-     *
-     * @return String transformed
-     */
-    private String insertCharacter(String line, char addon) {
-        StringBuilder sb = new StringBuilder();
-        int length = line.length();
-        for (int i = 0; i < length; i++) {
-            sb.append(line.charAt(i));
-            if (i < (length - 1)) {
-                sb.append(addon);
-            }
-        }
-        return sb.toString();
-    }
-
-    /**
-     * Clean String of digits, delete zero(-es) and add +
-     *
-     * @param line is String to clean
-     *
-     * @return String
-     */
-    private String zeroPlus(String line) {
-        StringBuffer ret = new StringBuffer();
-        Pattern pattern = Pattern.compile("0+");
-        Matcher matcher = pattern.matcher(line);
-
-        String[] ar = pattern.split(line);
-        for (int i = 0; i < ar.length; i++) {
-            if (ar[i].length() > 1) {
-                int ar_size = ar[i].length();
-                for (int j = 0; j < ar_size; j++) {
-                    //System.out.print(ar[i].charAt(j));
-                    ret.append(ar[i].charAt(j));
-                    if (j < (ar_size - 1)) {
-                        //System.out.print("+");
-                        ret.append("+");
-                    }
-                }
-            } else {
-                //System.out.print(ar[i]);
-                ret.append(ar[i]);
-            }
-            String found;
-            if (matcher.find()) {
-                found = matcher.group();
-                int s_length = found.length();
-                if (i > 0 && i < (ar.length - 1)) {
-                    //System.out.print(StringUtils.center("+", 1 + (s_length * 2)));
-                    ret.append(StringUtils.center("+", 1 + (s_length * 2)));
-                } else {
-                    //System.out.print(StringUtils.center(" ", s_length * 2));
-                    ret.append(StringUtils.center(" ", s_length * 2));
-                }
-            }
-        }
-        return ret.toString();
-    }
 }
+
