@@ -80,7 +80,7 @@ public class Computation {
         // that below works
         result.add(pTypeLastNameDigits.stream().map(Object::toString)
                 .collect(Collectors.joining("+")));
-        
+
         String lastNameDigits = pTypeLastNameDigits
                 .stream()
                 .map(Object::toString)
@@ -99,10 +99,12 @@ public class Computation {
 
             if (found33) {
                 //System.out.print(" Found!");
-                System.out.println(" In Reminder:\n  Digits are " + getDigitsFromIndex(pTypeLastNameDigits, pTypeLastNameIndex) + "\n  Index is " + pTypeLastNameIndex);
+                System.out.println(" In Reminder:\n  Digits are " 
+                        + getDigitsFromIndex(pTypeLastNameDigits, pTypeLastNameIndex) 
+                        + "\n  Index is " + pTypeLastNameIndex);
                 int currsum = summarize(pTypeLastNameDigits, pTypeLastNameIndex);
-                System.out.println(" Currsumm=" + currsum + "; trinityNumber=" + trinityNumber + " if(" + currsum + " < " + trinityNumber + ")break;");
-                System.out.println(" i=" + i33 + "; pTypeLastNameIndex.size()=" + pTypeLastNameIndex.size());
+                //System.out.println(" Currsumm=" + currsum + "; trinityNumber=" + trinityNumber + " if(" + currsum + " < " + trinityNumber + ")break;");
+                //System.out.println(" i=" + i33 + "; pTypeLastNameIndex.size()=" + pTypeLastNameIndex.size());
                 if (currsum < trinityNumber) {
                     break;
                 }
@@ -113,7 +115,9 @@ public class Computation {
         System.out.print("\nRESULT: ");
         if (found33) {
             System.out.println("Found " + trinityNumber + ":");
-            System.out.println("Reminder:\n Digits are " + getDigitsFromIndex(pTypeLastNameDigits, pTypeLastNameIndex) + "\n Index is " + pTypeLastNameIndex);
+            System.out.println("Reminder:\n Digits are " 
+                    + getDigitsFromIndex(pTypeLastNameDigits, pTypeLastNameIndex) 
+                    + "\n Index is " + pTypeLastNameIndex);
         } else {
             System.out.println(trinityNumber + " was not found!");
         }
@@ -122,8 +126,10 @@ public class Computation {
             System.out.println("Key=" + i + "; Index=" + pTypeLastNameSum.get(i));
             //+ "; " + getDigitsFromIndex(pTypeLastNameDigits, pTypeLastNameSum.get(i)));
         }
-        System.out.println(" Reminder is " + pTypeLastNameIndex + "; " + getDigitsFromIndex(pTypeLastNameDigits, pTypeLastNameIndex));
-
+        System.out.println(" Reminder is " + pTypeLastNameIndex + "; " 
+                + getDigitsFromIndex(pTypeLastNameDigits, pTypeLastNameIndex));
+        //==== Prepare of 33 -> (3+3) = 6 
+        
         //==== Search for 22 and 11 ===="
         /*     for (int powerNumber : SpecialNumbers.getPowerNumbers()) {
             //for (int powerNumber : specialNumbers.getPowerNumbers()) {
@@ -332,26 +338,25 @@ public class Computation {
             if (ar[i].length() > 1) {
                 int ar_size = ar[i].length();
                 for (int j = 0; j < ar_size; j++) {
-                    //System.out.print(ar[i].charAt(j));
                     ret.append(ar[i].charAt(j));
                     if (j < (ar_size - 1)) {
-                        //System.out.print("+");
                         ret.append("+");
                     }
                 }
             } else {
-                //System.out.print(ar[i]);
                 ret.append(ar[i]);
             }
+
             String found;
             if (matcher.find()) {
                 found = matcher.group();
                 int s_length = found.length();
+
                 if (i > 0 && i < (ar.length - 1)) {
-                    //System.out.print(StringUtils.center("+", 1 + (s_length * 2)));
+                    ret.append(StringUtils.center("+", 1 + (s_length * 2)));
+                } else if (ar[i].length() >= 1) {
                     ret.append(StringUtils.center("+", 1 + (s_length * 2)));
                 } else {
-                    //System.out.print(StringUtils.center(" ", s_length * 2));
                     ret.append(StringUtils.center(" ", s_length * 2));
                 }
             }

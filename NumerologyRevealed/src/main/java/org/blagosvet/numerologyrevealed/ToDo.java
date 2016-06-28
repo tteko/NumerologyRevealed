@@ -7,12 +7,19 @@ package org.blagosvet.numerologyrevealed;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.collections4.ListValuedMap;
+
+import org.apache.commons.collections4.MultiValuedMap;
+import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 
 import org.apache.commons.lang3.StringUtils;
 
 import org.blagosvet.numerologyrevealed.m.Person;
 
 public class ToDo {
+
+    private ArrayList<Integer> pTypeLastNameDigits;
+    private MultiValuedMap<Integer, ArrayList<Integer>> pTypeLastNameSum;
 
     public ToDo() {
         String message
@@ -33,15 +40,15 @@ public class ToDo {
         Заменить все хвостовые 0+ на пробелы
         Заменить все остальные 0+ на + посередине
          */
-        int allnums[] = {0, 0, 2, 0, 8, 7, 0, 0, 4, 0, 0, 0, 4, 0, 0};
+ /* int allnums[] = {0, 0, 2, 0, 8, 7, 0, 0, 4, 0, 0, 0, 4, 0, 0};
         StringBuilder sb = new StringBuilder();
 
         for (int d : allnums) {
             sb.append(d);
         }
         System.out.println("sb: " + sb);
-
-        /*while (matcher.find()) {
+         */
+ /*while (matcher.find()) {
 
             //System.out.println();
             String s = matcher.group();
@@ -62,7 +69,7 @@ public class ToDo {
         //System.out.format(format, "FirstName", "Init.", "LastName");
         //System.out.format(format,StringUtils.center("Real",10),StringUtils.center("",10),StringUtils.center("Gagnon",20));
 //============================
-        // 1. Print the name
+        /*      // 1. Print the name
         for (char c : name.toCharArray()) {
             System.out.print(c + " ");
         }
@@ -107,7 +114,8 @@ public class ToDo {
             }
         }
         System.out.println();
-        /*//ArrayList<String> als = new ArrayList<>();
+         */
+ /*//ArrayList<String> als = new ArrayList<>();
         //als.add("First line");
         //als.add("Second line");
         //als.add("Third line");
@@ -123,5 +131,56 @@ public class ToDo {
         //    System.out.println(line);
         //}
         Booklet booklet = new Booklet(aq);*/
+        ////============ Trinity Number 33 ===============
+        int[] digits = {7, 0, 2, 0, 9, 8, 1, 0, 5, 6, 7, 0, 5, 5, 0, 4, 0, 0, 3, 8};
+        pTypeLastNameDigits = new ArrayList<>();
+        for (int i : digits) {
+            pTypeLastNameDigits.add(i);
+        }
+
+        int[] i1 = {0, 2, 4, 5, 6, 9};
+        int[] i2 = {8, 10, 12, 13, 18, 19};
+        ArrayList<Integer> al1 = new ArrayList<>();
+        ArrayList<Integer> al2 = new ArrayList<>();
+        for (int i : i1) {
+            al1.add(i);
+        }
+        for (int i : i2) {
+            al2.add(i);
+        }
+
+        pTypeLastNameSum = new ArrayListValuedHashMap<>();
+        pTypeLastNameSum.put(33, al1);
+        pTypeLastNameSum.put(33, al2);
+        System.out.println("\nResult of selection:");
+        System.out.println("EXPECT:");
+        System.out.println("Key=33; Index=[[0, 2, 4, 5, 6, 9], [8, 10, 12, 13, 18, 19]]");
+        for (int i : pTypeLastNameSum.keySet()) {
+            System.out.println("Key=" + i + "; Index=" + pTypeLastNameSum.get(i));
+            //+ "; " + getDigitsFromIndex(pTypeLastNameDigits, pTypeLastNameSum.get(i)));
+        }
+        /*ListValuedMap<String, String> listValuedMap = new ArrayListValuedHashMap();
+
+        listValuedMap.put("United States", "Washington");
+
+        listValuedMap.put("Canada", "Ottawa");
+
+        listValuedMap.put("Canada", "Ottawa");
+
+        listValuedMap.put("South Africa", "Pretoria");
+
+        listValuedMap.put("South Africa", "Cape Town");
+
+        listValuedMap.put("South Africa", "Bloemfontein");
+
+        System.out.println(listValuedMap);
+*/
+
+    }
+
+    private ArrayList<Integer> convert33(MultiValuedMap<Integer, ArrayList<Integer>> mvm) {
+        ArrayList<Integer> ret = new ArrayList<>();
+
+        return ret;
     }
 }
