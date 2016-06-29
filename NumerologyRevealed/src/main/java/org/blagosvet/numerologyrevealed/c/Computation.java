@@ -73,13 +73,13 @@ public class Computation {
                 + "\nIndex :" + pTypeLastNameIndex);
         //==>
 
-        result.add(insertCharacter(person.getLastName(), ' '));
+        result.add(insertCharacter(person.getLastName(), "   "));
         //result.add(person.getLastName().chars().mapToObj(c -> (char) c).collect(Collectors.joining("+")));
         //result.add(person.getLastName().toCharArray().stream().map(Object::toString)
         //        .collect(Collectors.joining("+")));
         // that below works
         result.add(pTypeLastNameDigits.stream().map(Object::toString)
-                .collect(Collectors.joining("+")));
+                .collect(Collectors.joining(" + ")));
 
         String lastNameDigits = pTypeLastNameDigits
                 .stream()
@@ -99,8 +99,8 @@ public class Computation {
 
             if (found33) {
                 //System.out.print(" Found!");
-                System.out.println(" In Reminder:\n  Digits are " 
-                        + getDigitsFromIndex(pTypeLastNameDigits, pTypeLastNameIndex) 
+                System.out.println(" In Reminder:\n  Digits are "
+                        + getDigitsFromIndex(pTypeLastNameDigits, pTypeLastNameIndex)
                         + "\n  Index is " + pTypeLastNameIndex);
                 int currsum = summarize(pTypeLastNameDigits, pTypeLastNameIndex);
                 //System.out.println(" Currsumm=" + currsum + "; trinityNumber=" + trinityNumber + " if(" + currsum + " < " + trinityNumber + ")break;");
@@ -115,8 +115,8 @@ public class Computation {
         System.out.print("\nRESULT: ");
         if (found33) {
             System.out.println("Found " + trinityNumber + ":");
-            System.out.println("Reminder:\n Digits are " 
-                    + getDigitsFromIndex(pTypeLastNameDigits, pTypeLastNameIndex) 
+            System.out.println("Reminder:\n Digits are "
+                    + getDigitsFromIndex(pTypeLastNameDigits, pTypeLastNameIndex)
                     + "\n Index is " + pTypeLastNameIndex);
         } else {
             System.out.println(trinityNumber + " was not found!");
@@ -126,10 +126,10 @@ public class Computation {
             System.out.println("Key=" + i + "; Index=" + pTypeLastNameSum.get(i));
             //+ "; " + getDigitsFromIndex(pTypeLastNameDigits, pTypeLastNameSum.get(i)));
         }
-        System.out.println(" Reminder is " + pTypeLastNameIndex + "; " 
+        System.out.println(" Reminder is " + pTypeLastNameIndex + "; "
                 + getDigitsFromIndex(pTypeLastNameDigits, pTypeLastNameIndex));
         //==== Prepare of 33 -> (3+3) = 6 
-        
+
         //==== Search for 22 and 11 ===="
         /*     for (int powerNumber : SpecialNumbers.getPowerNumbers()) {
             //for (int powerNumber : specialNumbers.getPowerNumbers()) {
@@ -309,7 +309,7 @@ public class Computation {
      *
      * @return String transformed
      */
-    private String insertCharacter(String line, char addon) {
+    private String insertCharacter(String line, String addon) {
         StringBuilder sb = new StringBuilder();
         int length = line.length();
         for (int i = 0; i < length; i++) {
@@ -329,35 +329,77 @@ public class Computation {
      * @return String
      */
     private String zeroPlus(String line) {
-        StringBuffer ret = new StringBuffer();
+        StringBuilder ret = new StringBuilder();
         Pattern pattern = Pattern.compile("0+");
-        Matcher matcher = pattern.matcher(line);
 
-        String[] ar = pattern.split(line);
-        for (int i = 0; i < ar.length; i++) {
-            if (ar[i].length() > 1) {
-                int ar_size = ar[i].length();
-                for (int j = 0; j < ar_size; j++) {
-                    ret.append(ar[i].charAt(j));
-                    if (j < (ar_size - 1)) {
-                        ret.append("+");
+        boolean found = false;
+        if (line.matches("[1-9]+")) { // 0 is not present
+            String[] numbers = pattern.split(line);
+
+            System.out.println("MATCHES [1-9]+ !");
+            for (int i = 0; i < numbers.length; i++) {
+
+                for (int j = 0; j < numbers[i].length(); j++) {
+                    ret.append(numbers[i].charAt(j));
+                    if (j < (numbers[i].length() - 1)) {
+                        ret.append(" + ");
                     }
                 }
-            } else {
-                ret.append(ar[i]);
             }
+        } else if (line.matches("0+")) {
+            System.out.println("MATCHES 0+!");
+            ret.append("0");
 
-            String found;
-            if (matcher.find()) {
-                found = matcher.group();
-                int s_length = found.length();
+        } else if (line.matches("\\d+")) {
+            System.out.println("MATCHES \\d+ !");
+            String[] numbers = pattern.split(line);
+            Matcher matcher = pattern.matcher(line);
+            int i = 0;
+            for (; matcher.find(); i++) {
+                //found = true;
 
-                if (i > 0 && i < (ar.length - 1)) {
-                    ret.append(StringUtils.center("+", 1 + (s_length * 2)));
-                } else if (ar[i].length() >= 1) {
-                    ret.append(StringUtils.center("+", 1 + (s_length * 2)));
+                String found_null = matcher.group();
+                String found_num = numbers[i];
+                System.out.println("SRC: num=" + found_num + " null=" + found_null);
+                if (found_num.length() == 0) { // starts from 0
+                    ret.append(StringUtils.center(" ", found_null.length() + found_null.length() * 3));
+                    System.out.print(" IF: num=" + found_num + " length= " + found_num.length());
+                    System.out.println(" null=" + found_null + " length= " + found_null.length());
+                } else if (i == 0 && found_num.length() > 0) { // start from number, not 0
+                    //ret.append(found_num);
+                    for (int j = 0; j < numbers[i].length(); j++) {
+                        ret.append(numbers[i].charAt(j));
+                        if (j < (numbers[i].length() - 1)) {
+                            ret.append(" + ");
+                        }
+                    }
+                    if (!matcher.hitEnd()) {
+                        ret.append(StringUtils.center("+", found_null.length() + (1 + found_null.length()) * 3));
+                    }
+                    System.out.print(" ELSE IF: num=" + found_num + " length= " + found_num.length());
+                    System.out.print(" null=" + found_null + " length= " + found_null.length());
+                    System.out.println(" ret=" + ret.toString());
                 } else {
-                    ret.append(StringUtils.center(" ", s_length * 2));
+
+                    for (int j = 0; j < numbers[i].length(); j++) {
+                        ret.append(numbers[i].charAt(j));
+                        if (j < (numbers[i].length() - 1)) {
+                            ret.append(" + ");
+                        }
+                    }
+                    if (!matcher.hitEnd()) {
+                        ret.append(StringUtils.center("+", found_null.length() + (1 + found_null.length()) * 3));
+                    }
+                    System.out.print(" ELSE: num=" + found_num + " length= " + found_num.length());
+                    System.out.println(" null=" + found_null + " length= " + found_null.length() + " hitEnd=" + matcher.hitEnd());
+                }
+            }
+            if (i < numbers.length) {
+                for (int j = 0; j < numbers[i].length(); j++) {
+                    ret.append(numbers[i].charAt(j));
+                    if (j < (numbers[i].length() - 1)) {
+                        ret.append(" + ");
+                    }
                 }
             }
         }

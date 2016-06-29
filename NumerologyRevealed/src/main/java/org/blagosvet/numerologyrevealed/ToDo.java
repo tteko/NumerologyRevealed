@@ -5,6 +5,7 @@ package org.blagosvet.numerologyrevealed;
  * @author dmitri
  */
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.collections4.ListValuedMap;
@@ -157,6 +158,10 @@ public class ToDo {
         System.out.println("Key=33; Index=[[0, 2, 4, 5, 6, 9], [8, 10, 12, 13, 18, 19]]");
         for (int i : pTypeLastNameSum.keySet()) {
             System.out.println("Key=" + i + "; Index=" + pTypeLastNameSum.get(i));
+            Iterator iterator = pTypeLastNameSum.get(i).iterator();
+            while (iterator.hasNext()) {
+                System.out.println(iterator.next());
+            }
             //+ "; " + getDigitsFromIndex(pTypeLastNameDigits, pTypeLastNameSum.get(i)));
         }
         /*ListValuedMap<String, String> listValuedMap = new ArrayListValuedHashMap();
@@ -174,7 +179,89 @@ public class ToDo {
         listValuedMap.put("South Africa", "Bloemfontein");
 
         System.out.println(listValuedMap);
-*/
+         */
+        String line = "70209810567055040038";
+//P   e   t   e   r   h   s   o   n   f   g   e   n   n   a   d   i   i   c   h
+//7 + 0 + 2 + 0 + 9 + 8 + 1 + 0 + 5 + 6 + 7 + 0 + 5 + 5 + 0 + 4 + 0 + 0 + 3 + 8
+        StringBuilder ret = new StringBuilder();
+        Pattern pattern = Pattern.compile("0+");
+
+        boolean found = false;
+        if (line.matches("[1-9]+")) { // 0 is not present
+            String[] numbers = pattern.split(line);
+
+            System.out.println("MATCHES [1-9]+ !");
+            for (int i = 0; i < numbers.length; i++) {
+
+                for (int j = 0; j < numbers[i].length(); j++) {
+                    ret.append(numbers[i].charAt(j));
+                    if (j < (numbers[i].length() - 1)) {
+                        ret.append(" + ");
+                    }
+                }
+            }
+        } else if (line.matches("0+")) {
+            System.out.println("MATCHES 0+!");
+            ret.append("0");
+
+        } else if (line.matches("\\d+")) {
+            System.out.println("MATCHES \\d+ !");
+            String[] numbers = pattern.split(line);
+            Matcher matcher = pattern.matcher(line);
+            int i = 0;
+            for (; matcher.find(); i++) {
+                //found = true;
+                String found_null = matcher.group();
+                String found_num = numbers[i];
+                System.out.println("SRC: num=" + found_num + " null=" + found_null);
+                if (found_num.length() == 0) { // starts from 0
+                    ret.append(StringUtils.center(" ", found_null.length() + found_null.length() * 3));
+                    System.out.print(" IF: num=" + found_num + " length= " + found_num.length());
+                    System.out.println(" null=" + found_null + " length= " + found_null.length());
+                } else if (i == 0 && found_num.length() > 0) { // start from number, not 0
+                    //ret.append(found_num);
+                    for (int j = 0; j < numbers[i].length(); j++) {
+                        ret.append(numbers[i].charAt(j));
+                        if (j < (numbers[i].length() - 1)) {
+                            ret.append(" + ");
+                        }
+                    }
+                    if (!matcher.hitEnd()) {
+                        ret.append(StringUtils.center("+", found_null.length() + (1 + found_null.length()) * 3));
+                    }
+                    System.out.print(" ELSE IF: num=" + found_num + " length= " + found_num.length());
+                    System.out.println(" null=" + found_null + " length= " + found_null.length());
+
+                } else {
+
+                    for (int j = 0; j < numbers[i].length(); j++) {
+                        ret.append(numbers[i].charAt(j));
+                        if (j < (numbers[i].length() - 1)) {
+                            ret.append(" + ");
+                        }
+                    }
+                    if (!matcher.hitEnd()) {
+                        ret.append(StringUtils.center("+", found_null.length() + (1 + found_null.length()) * 3));
+                    }
+                    System.out.print(" ELSE: num=" + found_num + " length= " + found_num.length());
+                    System.out.println(" null=" + found_null + " length= " + found_null.length() + " hitEnd=" + matcher.hitEnd());
+                }
+        
+            }
+                System.out.println("i="+i+" numbers.["+i+"]="+numbers[i]);    
+        } else {
+            System.out.println("NOT MATCHES!");
+        }
+        /*(if (found) {
+            System.out.println("Result: Matches");
+        } else {
+            System.out.println("Result: Not matches");
+        }*/
+        for (char c : line.toCharArray()) {
+            System.out.print(c + " + ");
+        }
+        System.out.println("\nReturn:\n" + ret.toString());
+        //String[] ar = pattern.split(line);
 
     }
 
